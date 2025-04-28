@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import initialTodos from './todos.js';
-import TodoList from "./TodoList";
+import TodoList from "./TodoList.js";
+import TodoAdd from './TodoAdd.js';
 
 export default function App() {
   const [todos, setTodos] = useState(initialTodos);
@@ -18,6 +19,10 @@ export default function App() {
     setTodos(newTodos);
   };
 
+  const add = deed => {
+    setTodos([...todos, deed]);
+  };
+ 
   return (
     <div className="container">
       <nav className="navbar is-light">
@@ -29,6 +34,7 @@ export default function App() {
       </nav>
       <main className="context px-6 py-6">
         <TodoList list={todos} setDone={setDone} del={del}/>
+        <TodoAdd add={add}/>
       </main>
     </div>
   )
