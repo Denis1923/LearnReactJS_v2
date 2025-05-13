@@ -1,28 +1,9 @@
 import { useState } from 'react';
-import initialTodos from './todos.js';
 import { Outlet, NavLink } from 'react-router-dom';
 
 export default function App() {
-  const [todos, setTodos] = useState(initialTodos); // что значит [todos, setTodos] ?
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);// что значит [showMenu, setShowMenu] ?
   
-  const setDone = key => { //стрелочная функция
-    const newTodos = [...todos]; //что такое ...?
-    const deed = newTodos.find(current => current.key === key);
-    if (deed)
-      deed.done = true;
-    setTodos(newTodos);
-  };
-
-  const del = key => {
-    const newTodos = todos.filter(current => current.key !== key);
-    setTodos(newTodos);
-  };
-
-  const add = deed => {
-    setTodos([...todos, deed]);
-  };
- 
   const handleBurgerClick = evt => {
     evt.preventDefault();
     setShowMenu(!showMenu);
