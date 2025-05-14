@@ -33,6 +33,9 @@ export function actTodo({ params, request }) {
     const key = +params.key;
     const todo = todos.findIndex(current => current.key === key);
 
+    if (!todo)
+        throw new Error();
+
     if (request.method === 'PATCH')
         todos[todo].done = true;
     else
