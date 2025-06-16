@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
+import { setStateChangeHandler } from './api';
 
 export default function App() {
   const [showMenu, setShowMenu] = useState(false);// что значит [showMenu, setShowMenu] ?
-  
+  const [user, setUser] = useState(); 
+
+  const authStateChange = __user => {
+    setUser(__user);
+  };
+
   const handleBurgerClick = evt => {
     evt.preventDefault();
     setShowMenu(!showMenu);
   }
+
+  useEffect(() => {
+    const unsubscribe = setStateChangeHandler(authStateChange);
+    return () => {unsubscribe()};
+  }, []);
 
   return (
     <div className="container">
@@ -19,7 +30,7 @@ export default function App() {
               'navbar-item is-uppercase' +
               (isActive ? ' is-active' : '')
             }>
-            Todos
+            {!!user ? user.email : 'Todos'}
           </NavLink>
           <a href='/'
             className={ showMenu ? 'navbar-burger is-active' : 'navbar-burger' }
@@ -33,14 +44,25 @@ export default function App() {
         <div className={showMenu ? 'navbar-menu is-active' : 'navbar-menu'}
           onClick={handleBurgerClick} >
          <div className='navbar-start'>
-          <NavLink
-            to="/add"
-            className={({ isActive }) =>
-              'navbar-item' +
-              (isActive ? ' is-active' : '')
-            }>
-            Создать дело
-          </NavLink>
+         {!!user && (
+            <NavLink
+              to="/add"
+              className={({ isActive }) =>
+                'navbar-item' +
+                (isActive ? ' is-active' : '')
+              }>
+              Создать дело
+            </NavLink>
+          )
+         } 
+         { !user && (
+            <NavLink to='/register'
+              className={({isActive}) => 
+                'navbar-item' + (isActive ? 'is-active' : '')}>
+                  Зарегистрироваться
+                </NavLink>
+          )
+         }         
          </div> 
         </div>
       </nav>
