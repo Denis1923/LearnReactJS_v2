@@ -55,6 +55,13 @@ export default function App() {
             </NavLink>
           )
          } 
+         {!user && (
+            <NavLink to='/login'
+              className={({isActive}) => 
+                'navbar-item' + (isActive ? ' is-active' : '')}
+                >Войти</NavLink>
+          )
+         }
          { !user && (
             <NavLink to='/register'
               className={({isActive}) => 
@@ -63,7 +70,16 @@ export default function App() {
                 </NavLink>
           )
          }         
-         </div> 
+         </div>
+         {user && (
+            <div className='navbar-end'>
+              <NavLink to='/logout'
+                className='navbar-item'>
+                  Выйти
+                </NavLink>
+            </div>
+          )
+         } 
         </div>
       </nav>
       <main className="context px-6 py-6">
